@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <!-- Main Menu -->
-    <menuitem id="menu_shopify_root" name="Shopify" sequence="45" web_icon="odoo18_shopify_sync,static/description/icon.png"/>
+    <menuitem id="menu_shopify_root" name="Shopify Integration" sequence="45" web_icon="odoo18_shopify_sync,static/description/icon.png"/>
+
+    <!-- Operations Menu -->
+    <menuitem id="menu_shopify_operations" name="Operations" parent="menu_shopify_root" sequence="10"/>
 
     <!-- Configuration Menu -->
-    <menuitem id="menu_shopify_config" name="Configuration" parent="menu_shopify_root" sequence="100"/>
-    
-    <!-- Operations Menu -->
-    <menuitem id="menu_shopify_operations" name="Operations" parent="menu_shopify_root" sequence="50"/>
+    <menuitem id="menu_shopify_config" name="Configuration" parent="menu_shopify_root" sequence="20"/>
     
     <!-- We will define the actions in the respective view files and link them to these menus -->
 </odoo>

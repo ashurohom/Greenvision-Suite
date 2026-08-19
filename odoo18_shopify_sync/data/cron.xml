@@ -13,10 +13,8 @@ for instance in instances:
             <field name="user_id" ref="base.user_root"/>
             <field name="interval_number">1</field>
             <field name="interval_type">days</field>
-            <field name="numbercall">-1</field>
             <!-- 09:00 PM UTC, adjust timezone as needed based on server settings -->
             <field name="nextcall" eval="(DateTime.now() + relativedelta(days=1)).replace(hour=21, minute=0, second=0).strftime('%Y-%m-%d %H:%M:%S')"/>
-            <field name="doall" eval="False"/>
         </record>
     </data>
 </odoo>

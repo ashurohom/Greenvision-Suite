@@ -11,7 +11,7 @@ class ShopifyPayment(models.Model):
     currency_id = fields.Many2one('res.currency', string='Currency')
     payment_date = fields.Datetime('Payment Date')
     payment_status = fields.Char('Payment Status')
-    sale_order_id = fields.Many2one('sale.order', string='Sale Order')
+    sale_order_id = fields.Many2one('sale.order', string='Sale Order', required=True)
     company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.company)
 
     _sql_constraints = [

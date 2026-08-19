@@ -9,7 +9,7 @@ class ShopifyInstance(models.Model):
     _description = 'Shopify Instance Configuration'
 
     name = fields.Char('Name', required=True)
-    company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.company)
+    company_id = fields.Many2one('res.company', string='Company', required=True, default=lambda self: self.env.company)
     store_url = fields.Char('Store URL', required=True, help="e.g. https://your-store.myshopify.com")
     api_version = fields.Char('API Version', required=True, default='2023-10')
     access_token = fields.Char('Admin API Access Token', required=True)

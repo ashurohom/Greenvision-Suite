@@ -63,5 +63,5 @@
               name="Sync Logs" 
               parent="menu_shopify_operations" 
               action="action_shopify_sync_log" 
-              sequence="30"/>
+              sequence="10"/>
 </odoo>

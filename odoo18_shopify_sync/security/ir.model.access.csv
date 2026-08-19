@@ -2,4 +2,3 @@ id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_shopify_instance,shopify.instance,model_shopify_instance,base.group_user,1,1,1,1
 access_shopify_sync_log,shopify.sync.log,model_shopify_sync_log,base.group_user,1,1,1,1
 access_shopify_payment,shopify.payment,model_shopify_payment,base.group_user,1,1,1,1
-access_shopify_manual_sync,shopify.manual.sync,model_shopify_manual_sync,base.group_user,1,1,1,1

@@ -126,4 +126,8 @@ class ShopifyOrderSyncService(models.AbstractModel):
                 'price_unit': float(shipping.get('price') or 0.0),
             })
             
+        # Auto-confirm the order
+        if order.state in ['draft', 'sent']:
+            order.action_confirm()
+            
         return 'imported'

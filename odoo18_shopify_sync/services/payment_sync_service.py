@@ -72,6 +72,9 @@ class ShopifyPaymentSyncService(models.AbstractModel):
             
         # Find the sale order in Odoo
         so = self.env['sale.order'].search([('shopify_order_id', '=', order_id)], limit=1)
+        if not so:
+            _logger.warning("Skipping payment %s: Sales Order %s not found in Odoo.", trans_id, order_id)
+            return 'skipped'
         
         date_trans = trans_data.get('created_at')
         if date_trans:
@@ -90,5 +93,44 @@ class ShopifyPaymentSyncService(models.AbstractModel):
             'company_id': instance.company_id.id,
         }
         
-        payment_obj.create(vals)
+        payment_record = payment_obj.create(vals)
+        
+        # Odoo Accounting Integration: Auto-Invoice and Auto-Pay
+        if so and so.state in ['sale', 'done']:
+            # Find or create invoice
+            invoices = so.invoice_ids.filtered(lambda inv: inv.state == 'posted' and inv.payment_state in ('not_paid', 'partial'))
+            if not invoices:
+                invoices = so._create_invoices()
+                invoices.action_post()
+                
+            if invoices:
+                invoice = invoices[0]
+                # Default to a bank journal
+                journal = self.env['account.journal'].search([('type', '=', 'bank'), ('company_id', '=', instance.company_id.id)], limit=1)
+                
+                if journal:
+                    payment_vals = {
+                        'payment_type': 'inbound',
+                        'partner_type': 'customer',
+                        'partner_id': so.partner_id.id,
+                        'amount': vals['amount'],
+                        'currency_id': vals['currency_id'] or so.currency_id.id,
+                        'date': vals['payment_date'],
+                        'journal_id': journal.id,
+                        'ref': trans_id,
+                    }
+                    acc_payment = self.env['account.payment'].create(payment_vals)
+                    acc_payment.action_post()
+                    
+                    # Reconcile payment with the invoice
+                    domain = [
+                        ('account_type', 'in', ('asset_receivable', 'liability_payable')),
+                        ('reconciled', '=', False),
+                    ]
+                    payment_lines = acc_payment.line_ids.filtered_domain(domain)
+                    invoice_lines = invoice.line_ids.filtered_domain(domain)
+                    
+                    if payment_lines and invoice_lines:
+                        (payment_lines + invoice_lines).reconcile()
+                        
         return 'imported'

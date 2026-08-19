@@ -18,4 +18,17 @@
             </xpath>
         </field>
     </record>
+
+    <record id="action_shopify_sale_order" model="ir.actions.act_window">
+        <field name="name">Shopify Sales Orders</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('shopify_order_id', '!=', False)]</field>
+    </record>
+
+    <menuitem id="menu_shopify_orders" 
+              name="Sales Orders" 
+              parent="menu_shopify_operations" 
+              action="action_shopify_sale_order" 
+              sequence="5"/>
 </odoo>
