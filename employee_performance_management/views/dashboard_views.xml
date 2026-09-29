@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_employee_performance_dashboard" model="ir.actions.client">
+        <field name="name">Management Dashboard</field>
+        <field name="tag">backend_dashboard</field> <!-- Placeholder for actual custom dashboard action if not using board module -->
+    </record>
+    
+    <record id="view_employee_performance_evaluation_pivot" model="ir.ui.view">
+        <field name="name">employee.performance.evaluation.pivot</field>
+        <field name="model">employee.performance.evaluation</field>
+        <field name="arch" type="xml">
+            <pivot string="Performance Analysis">
+                <field name="department_id" type="row"/>
+                <field name="overall_score" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_employee_performance_evaluation_graph" model="ir.ui.view">
+        <field name="name">employee.performance.evaluation.graph</field>
+        <field name="model">employee.performance.evaluation</field>
+        <field name="arch" type="xml">
+            <graph string="Performance Trends">
+                <field name="review_cycle_id"/>
+                <field name="overall_score" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="action_employee_performance_reporting" model="ir.actions.act_window">
+        <field name="name">Performance Analysis</field>
+        <field name="res_model">employee.performance.evaluation</field>
+        <field name="view_mode">graph,pivot</field>
+    </record>
+
+    <menuitem id="menu_performance_reporting_analysis"
+              name="Performance Analysis"
+              parent="menu_performance_reporting"
+              action="action_employee_performance_reporting"
+              sequence="10"/>
+</odoo>

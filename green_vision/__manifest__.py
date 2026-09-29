@@ -1,7 +1,7 @@
 {
     "name": "GreenVision",
     "version": "18.0.1.0.0",
-    "summary": "GreenVision Test Module",
+    "summary": "GreenVision",
 
     "author": "GreenVision",
     "website": "https://www.greenvision.in",
@@ -24,6 +24,8 @@
         "security/security.xml",
         "security/ir.model.access.csv",
         "views/dashboard_views.xml",
+        "views/stock_picking_views.xml",
+        "views/product_views.xml",
     ],
 
     "assets": {

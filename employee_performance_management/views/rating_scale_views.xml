@@ -1,59 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Rating Scale Tree View -->
-    <record id="view_epm_rating_scale_tree" model="ir.ui.view">
-        <field name="name">epm.rating.scale.tree</field>
-        <field name="model">epm.rating.scale</field>
+    <record id="view_employee_performance_rating_scale_tree" model="ir.ui.view">
+        <field name="name">employee.performance.rating.scale.tree</field>
+        <field name="model">employee.performance.rating.scale</field>
         <field name="arch" type="xml">
-            <list string="Rating Scales">
-                <field name="sequence" widget="handle"/>
+            <list>
                 <field name="name"/>
                 <field name="min_score"/>
                 <field name="max_score"/>
-                <field name="color" widget="color_picker"/>
             </list>
         </field>
     </record>
 
-    <!-- Rating Scale Form View -->
-    <record id="view_epm_rating_scale_form" model="ir.ui.view">
-        <field name="name">epm.rating.scale.form</field>
-        <field name="model">epm.rating.scale</field>
-        <field name="arch" type="xml">
-            <form string="Rating Scale">
-                <sheet>
-                    <div class="oe_title">
-                        <h1>
-                            <field name="name" placeholder="Rating Name (e.g., Outstanding)"/>
-                        </h1>
-                    </div>
-                    <group>
-                        <group>
-                            <field name="min_score"/>
-                            <field name="max_score"/>
-                        </group>
-                        <group>
-                            <field name="color" widget="color_picker"/>
-                        </group>
-                    </group>
-                </sheet>
-            </form>
-        </field>
-    </record>
-
-    <!-- Rating Scale Action -->
-    <record id="action_epm_rating_scale" model="ir.actions.act_window">
-        <field name="name">Rating Scale</field>
-        <field name="res_model">epm.rating.scale</field>
+    <record id="action_employee_performance_rating_scale" model="ir.actions.act_window">
+        <field name="name">Rating Scales</field>
+        <field name="res_model">employee.performance.rating.scale</field>
         <field name="view_mode">list,form</field>
-        <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">
-                Define your Rating Scales!
-            </p>
-        </field>
     </record>
 
-    <!-- Menu Item -->
-    <menuitem id="menu_epm_rating_scale" name="Rating Scale" parent="menu_epm_masters" action="action_epm_rating_scale" sequence="50"/>
-
+    <menuitem id="menu_performance_rating_scale"
+              name="Rating Scales"
+              parent="menu_performance_configuration"
+              action="action_employee_performance_rating_scale"
+              sequence="50"/>
 </odoo>

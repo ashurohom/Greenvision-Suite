@@ -10,5 +10,14 @@
             <field name="interval_type">minutes</field>
             <field name="active" eval="False"/>
         </record>
+        <record id="ir_cron_tally_check_connection" model="ir.cron">
+            <field name="name">Tally Connection Check</field>
+            <field name="model_id" ref="model_tally_configuration"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_check_connection()</field>
+            <field name="interval_number">5</field>
+            <field name="interval_type">minutes</field>
+            <field name="active" eval="True"/>
+        </record>
     </data>
 </odoo>

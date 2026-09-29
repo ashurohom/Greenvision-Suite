@@ -6,17 +6,6 @@
               sequence="50" 
               web_icon="odoo18_tally_sync,static/description/icon.png"/>
 
-    <!-- Sync Logs Menu -->
-    <menuitem id="menu_tally_sync_logs" 
-              name="Sync Logs" 
-              parent="menu_tally_integration_root" 
-              sequence="10"/>
-
-    <!-- Manual Sync Menu -->
-    <menuitem id="menu_tally_manual_sync" 
-              name="Manual Sync" 
-              parent="menu_tally_integration_root" 
-              sequence="20"/>
 
     <!-- Configuration Menu -->
     <menuitem id="menu_tally_configuration" 

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_employee_performance_assignment_tree" model="ir.ui.view">
+        <field name="name">employee.performance.assignment.tree</field>
+        <field name="model">employee.performance.assignment</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="template_id"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="status" widget="badge" decoration-info="status == 'draft'" decoration-success="status == 'active'" decoration-muted="status in ('completed', 'cancelled')"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_employee_performance_assignment_form" model="ir.ui.view">
+        <field name="name">employee.performance.assignment.form</field>
+        <field name="model">employee.performance.assignment</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="status" widget="statusbar" statusbar_visible="draft,active,completed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="employee_id"/>
+                            <field name="job_id"/>
+                            <field name="template_id"/>
+                        </group>
+                        <group>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Overrides &amp; Details">
+                            <field name="line_ids">
+                                <list editable="bottom">
+                                    <field name="kra_id"/>
+                                    <field name="kpa_id"/>
+                                    <field name="kpi_id"/>
+                                    <field name="target_value_override"/>
+                                    <field name="weightage_override"/>
+                                    <field name="is_applicable"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_employee_performance_assignment" model="ir.actions.act_window">
+        <field name="name">Performance Assignments</field>
+        <field name="res_model">employee.performance.assignment</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_performance_assignment"
+              name="Assignments"
+              parent="menu_employee_performance_root"
+              action="action_employee_performance_assignment"
+              sequence="30"/>
+</odoo>

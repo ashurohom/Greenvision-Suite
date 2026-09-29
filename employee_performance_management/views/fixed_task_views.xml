@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_employee_performance_fixed_task_template_tree" model="ir.ui.view">
+        <field name="name">employee.performance.fixed.task.template.tree</field>
+        <field name="model">employee.performance.fixed.task.template</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="frequency"/>
+                <field name="target"/>
+                <field name="kra_id"/>
+                <field name="kpa_id"/>
+                <field name="kpi_id"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_employee_performance_fixed_task_template" model="ir.actions.act_window">
+        <field name="name">Fixed Tasks Templates</field>
+        <field name="res_model">employee.performance.fixed.task.template</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_performance_fixed_task_template"
+              name="Fixed Tasks Templates"
+              parent="menu_performance_configuration"
+              action="action_employee_performance_fixed_task_template"
+              sequence="60"/>
+</odoo>

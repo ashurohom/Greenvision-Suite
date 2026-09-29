@@ -57,7 +57,7 @@ class TallyAPIProvider(TallyClient):
             return False, str(e)
 
     def send_request(self, payload):
-        """Placeholder for sending request to Tally."""
+        """Sends request to Tally and checks for internal XML errors."""
         try:
             response = requests.post(
                 self.server_url,
@@ -67,7 +67,30 @@ class TallyAPIProvider(TallyClient):
                 timeout=self.timeout
             )
             response.raise_for_status()
-            return True, response.text
+            
+            # Tally often returns 200 OK even if there are XML/logic errors.
+            response_text = response.text
+            try:
+                import xml.etree.ElementTree as ET
+                root = ET.fromstring(response_text)
+                
+                # Check for errors in Tally response
+                errors = root.find('.//ERRORS')
+                exceptions = root.find('.//EXCEPTIONS')
+                line_error = root.find('.//LINEERROR')
+                
+                error_count = int(errors.text) if errors is not None and errors.text and errors.text.strip().isdigit() else 0
+                exception_count = int(exceptions.text) if exceptions is not None and exceptions.text and exceptions.text.strip().isdigit() else 0
+                error_msg = line_error.text if line_error is not None else ""
+                
+                if error_count > 0 or exception_count > 0 or error_msg:
+                    # Include the raw response_text to see the exact error from Tally
+                    return False, f"Tally Error: {error_msg} (Errors: {error_count}, Exceptions: {exception_count})\nRaw Response:\n{response_text}"
+                    
+            except ET.ParseError:
+                pass # If it's not XML, just return true if no HTTP error
+                
+            return True, response_text
         except Exception as e:
             _logger.error("Tally send request failed: %s", str(e))
             return False, str(e)

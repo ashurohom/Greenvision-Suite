@@ -3,3 +3,9 @@ from . import xml_parser
 from . import xml_generator
 from . import customer_service
 from . import vendor_service
+from . import product_service
+from . import invoice_service
+from . import payment_service
+from . import vendor_bill_service
+from . import credit_note_service
+from . import debit_note_service

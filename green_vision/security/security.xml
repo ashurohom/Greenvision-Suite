@@ -14,5 +14,13 @@
             <field name="category_id" ref="green_vision.module_category_green_vision"/>
             <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
         </record>
+
+        <!-- Show Product Reference Group -->
+        <record id="group_show_product_reference" model="res.groups">
+            <field name="name">Show Product Reference</field>
+            <field name="category_id" ref="green_vision.module_category_green_vision"/>
+            <!-- Add root/admin by default -->
+            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+        </record>
     </data>
 </odoo>

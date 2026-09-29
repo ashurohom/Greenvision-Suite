@@ -1,67 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- KPA Tree View -->
-    <record id="view_epm_kpa_tree" model="ir.ui.view">
-        <field name="name">epm.kpa.tree</field>
-        <field name="model">epm.kpa</field>
+    <record id="view_employee_performance_kpa_tree" model="ir.ui.view">
+        <field name="name">employee.performance.kpa.tree</field>
+        <field name="model">employee.performance.kpa</field>
         <field name="arch" type="xml">
-            <list string="KPAs">
+            <list>
                 <field name="sequence" widget="handle"/>
                 <field name="code"/>
                 <field name="name"/>
                 <field name="kra_id"/>
                 <field name="weightage"/>
-                <field name="active" widget="boolean_toggle"/>
             </list>
         </field>
     </record>
 
-    <!-- KPA Form View -->
-    <record id="view_epm_kpa_form" model="ir.ui.view">
-        <field name="name">epm.kpa.form</field>
-        <field name="model">epm.kpa</field>
+    <record id="view_employee_performance_kpa_form" model="ir.ui.view">
+        <field name="name">employee.performance.kpa.form</field>
+        <field name="model">employee.performance.kpa</field>
         <field name="arch" type="xml">
-            <form string="KPA">
+            <form>
                 <sheet>
-                    <div class="oe_button_box" name="button_box">
-                        <button name="%(action_epm_kpi)d" type="action" class="oe_stat_button" icon="fa-list" context="{'search_default_kpa_id': id}">
-                            <div class="o_field_widget o_stat_info">
-                                <span class="o_stat_text">KPIs</span>
-                            </div>
-                        </button>
-                    </div>
-                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger" invisible="active == True"/>
                     <div class="oe_title">
                         <h1>
-                            <field name="code" readonly="1"/>
+                            <field name="name" placeholder="e.g. Accounts Payable"/>
                         </h1>
-                        <h2>
-                            <field name="name" placeholder="KPA Name"/>
-                        </h2>
                     </div>
                     <group>
                         <group>
+                            <field name="code"/>
                             <field name="kra_id"/>
-                            <field name="weightage"/>
                         </group>
                         <group>
-                            <field name="active" invisible="1"/>
+                            <field name="weightage"/>
+                            <field name="active" widget="boolean_toggle"/>
                         </group>
                     </group>
                     <notebook>
                         <page string="Description">
-                            <field name="description" placeholder="Description of the Key Performance Area..."/>
-                        </page>
-                        <page string="KPIs">
-                            <field name="kpi_ids">
-                                <list editable="bottom">
-                                    <field name="sequence" widget="handle"/>
-                                    <field name="code"/>
-                                    <field name="name"/>
-                                    <field name="measurement_type"/>
-                                    <field name="weightage"/>
-                                </list>
-                            </field>
+                            <field name="description"/>
                         </page>
                     </notebook>
                 </sheet>
@@ -69,37 +45,15 @@
         </field>
     </record>
 
-    <!-- KPA Search View -->
-    <record id="view_epm_kpa_search" model="ir.ui.view">
-        <field name="name">epm.kpa.search</field>
-        <field name="model">epm.kpa</field>
-        <field name="arch" type="xml">
-            <search string="Search KPAs">
-                <field name="name"/>
-                <field name="code"/>
-                <field name="kra_id"/>
-                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
-                <group expand="0" string="Group By">
-                    <filter string="KRA" name="group_by_kra" context="{'group_by': 'kra_id'}"/>
-                </group>
-            </search>
-        </field>
-    </record>
-
-    <!-- KPA Action -->
-    <record id="action_epm_kpa" model="ir.actions.act_window">
-        <field name="name">KPA Master</field>
-        <field name="res_model">epm.kpa</field>
+    <record id="action_employee_performance_kpa" model="ir.actions.act_window">
+        <field name="name">Key Performance Areas (KPA)</field>
+        <field name="res_model">employee.performance.kpa</field>
         <field name="view_mode">list,form</field>
-        <field name="search_view_id" ref="view_epm_kpa_search"/>
-        <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">
-                Create your first Key Performance Area (KPA)!
-            </p>
-        </field>
     </record>
 
-    <!-- Menu Item -->
-    <menuitem id="menu_epm_kpa" name="KPA Master" parent="menu_epm_masters" action="action_epm_kpa" sequence="20"/>
-
+    <menuitem id="menu_performance_kpa"
+              name="KPAs"
+              parent="menu_performance_configuration"
+              action="action_employee_performance_kpa"
+              sequence="20"/>
 </odoo>

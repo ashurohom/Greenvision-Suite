@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_picking_form_inherit_green_vision" model="ir.ui.view">
+        <field name="name">stock.picking.form.inherit.green.vision</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='move_ids_without_package']//field[@name='product_id']" position="attributes">
+                <attribute name="context">{'display_default_code': False}</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

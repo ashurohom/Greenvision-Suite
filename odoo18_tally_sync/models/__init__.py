@@ -1,3 +1,7 @@
 from . import tally_configuration
 from . import tally_sync_log
 from . import res_partner
+from . import product_template
+from . import account_move
+from . import account_payment
+from . import account_journal

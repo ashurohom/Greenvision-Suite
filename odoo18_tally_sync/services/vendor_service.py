@@ -37,13 +37,45 @@ class VendorService:
 
     def import_vendors(self):
         """Imports vendors from Tally."""
-        # Placeholder payload for fetching vendors
         payload = "<ENVELOPE><HEADER><TALLYREQUEST>Export Data</TALLYREQUEST></HEADER><BODY><EXPORTDATA><REQUESTDESC><REPORTNAME>List of Accounts</REPORTNAME></REQUESTDESC></EXPORTDATA></BODY></ENVELOPE>"
         success, response = self.client.send_request(payload)
         
         if success:
-            parsed_response = XMLParser.parse_response(response)
-            # Logic to create or update res.partner
-            # ...
+            ledgers = XMLParser.parse_ledgers(response, group_filter="Sundry Creditors")
+            Partner = self.env['res.partner']
+            for ledger in ledgers:
+                partner = Partner.search([('tally_id', '=', ledger['guid'])], limit=1)
+                if not partner:
+                    # Fallback to match by name
+                    partner = Partner.search([('name', '=ilike', ledger['name'])], limit=1)
+                
+                vals = {
+                    'name': ledger['name'],
+                    'tally_id': ledger['guid'],
+                    'email': ledger['email'] or False,
+                    'phone': ledger['phone'] or False,
+                    'mobile': ledger.get('mobile') or False,
+                    'street': ledger.get('street') or False,
+                    'street2': ledger.get('street2') or False,
+                    'city': ledger.get('city') or False,
+                    'zip': ledger.get('zip') or False,
+                    'supplier_rank': 1,
+                    'sync_status': 'success',
+                }
+                # Remove False keys to prevent overwriting existing details if empty from Tally
+                if partner:
+                    update_vals = {k: v for k, v in vals.items() if v}
+                    partner.write(update_vals)
+                else:
+                    Partner.create(vals)
         
-        return success, response
+        self.env['tally.sync.log'].create({
+            'operation': 'import',
+            'model': 'vendor',
+            'status': 'success' if success else 'failed',
+            'request': payload,
+            'response': response,
+            'error_message': '' if success else response,
+        })
+        
+        return success, response, len(ledgers) if success else 0

@@ -31,9 +31,9 @@
         <field name="target">new</field>
     </record>
 
-    <menuitem id="menu_tally_manual_sync_action" 
-              name="Sync Wizard" 
-              parent="menu_tally_manual_sync" 
+    <menuitem id="menu_tally_manual_sync" 
+              name="Manual Sync" 
+              parent="menu_tally_integration_root" 
               action="action_tally_manual_sync" 
-              sequence="10"/>
+              sequence="20"/>
 </odoo>

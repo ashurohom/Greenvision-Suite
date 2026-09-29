@@ -27,8 +27,8 @@ class TallyConfiguration(models.Model):
     last_connection = fields.Datetime(string='Last Connection', readonly=True)
     connection_status = fields.Selection([
         ('connected', 'Connected'),
-        ('disconnected', 'Disconnected'),
-        ('failed', 'Connection Failed')
+        ('disconnected', 'Not Connected'),
+        ('failed', 'Not Connected')
     ], string='Connection Status', default='disconnected', readonly=True)
 
     def action_test_connection(self):
@@ -58,10 +58,11 @@ class TallyConfiguration(models.Model):
                         'message': _('Successfully connected to Tally server.'),
                         'type': 'success',
                         'sticky': False,
+                        'next': {'type': 'ir.actions.client', 'tag': 'reload'},
                     }
                 }
             else:
-                record.connection_status = 'failed'
+                record.connection_status = 'disconnected'
                 return {
                     'type': 'ir.actions.client',
                     'tag': 'display_notification',
@@ -70,5 +71,28 @@ class TallyConfiguration(models.Model):
                         'message': _('Failed to connect to Tally server: %s' % message),
                         'type': 'danger',
                         'sticky': True,
+                        'next': {'type': 'ir.actions.client', 'tag': 'reload'},
                     }
                 }
+
+    @api.model
+    def _cron_check_connection(self):
+        """Automatically checks connection status for all active Tally configurations."""
+        configs = self.search([('active', '=', True)])
+        from ..services.tally_client import TallyAPIProvider
+        for record in configs:
+            client = TallyAPIProvider(
+                server_url=record.server_url,
+                auth_type=record.auth_type,
+                username=record.username,
+                password=record.password,
+                token=record.api_token,
+                timeout=record.connection_timeout
+            )
+            success, message = client.test_connection()
+            
+            record.last_connection = fields.Datetime.now()
+            if success:
+                record.connection_status = 'connected'
+            else:
+                record.connection_status = 'disconnected'

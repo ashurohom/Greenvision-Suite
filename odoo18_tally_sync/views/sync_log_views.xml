@@ -76,9 +76,9 @@
         <field name="search_view_id" ref="view_tally_sync_log_search"/>
     </record>
 
-    <menuitem id="menu_tally_sync_logs_action" 
-              name="API Logs" 
-              parent="menu_tally_sync_logs" 
+    <menuitem id="menu_tally_sync_logs" 
+              name="Sync Logs" 
+              parent="menu_tally_integration_root" 
               action="action_tally_sync_log" 
               sequence="10"/>
 </odoo>

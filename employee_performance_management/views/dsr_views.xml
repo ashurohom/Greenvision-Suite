@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_employee_performance_dsr_tree" model="ir.ui.view">
+        <field name="name">employee.performance.dsr.tree</field>
+        <field name="model">employee.performance.dsr</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="date"/>
+                <field name="manager_id"/>
+                <field name="status" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_employee_performance_dsr_form" model="ir.ui.view">
+        <field name="name">employee.performance.dsr.form</field>
+        <field name="model">employee.performance.dsr</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_submit" string="Submit" type="object" invisible="status != 'draft'" class="oe_highlight"/>
+                    <button name="action_under_review" string="Review" type="object" invisible="status != 'submitted'"/>
+                    <button name="action_approve" string="Approve" type="object" invisible="status != 'under_review'" class="oe_highlight"/>
+                    <button name="action_reject" string="Reject" type="object" invisible="status != 'under_review'"/>
+                    <field name="status" widget="statusbar" statusbar_visible="draft,submitted,approved"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="employee_id" readonly="status != 'draft'"/>
+                            <field name="department_id"/>
+                            <field name="manager_id"/>
+                        </group>
+                        <group>
+                            <field name="date" readonly="status != 'draft'"/>
+                            <field name="submitted_date"/>
+                            <field name="approved_date"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Tasks">
+                            <field name="line_ids" readonly="status not in ('draft', 'rejected')">
+                                <list editable="bottom">
+                                    <field name="task_type"/>
+                                    <field name="fixed_task_id" invisible="task_type != 'fixed'"/>
+                                    <field name="project_task_id" invisible="task_type not in ('variable', 'project')"/>
+                                    <field name="kra_id" readonly="1"/>
+                                    <field name="kpa_id" readonly="1"/>
+                                    <field name="kpi_id" readonly="1"/>
+                                    <field name="planned_hours"/>
+                                    <field name="actual_hours"/>
+                                    <field name="progress"/>
+                                    <field name="status"/>
+                                    <field name="remarks"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="General Remarks">
+                            <field name="remarks" readonly="status not in ('draft', 'rejected')"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_employee_performance_dsr_my" model="ir.actions.act_window">
+        <field name="name">My DSR</field>
+        <field name="res_model">employee.performance.dsr</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('employee_id.user_id', '=', uid)]</field>
+    </record>
+    
+    <record id="action_employee_performance_dsr_team" model="ir.actions.act_window">
+        <field name="name">Team DSRs</field>
+        <field name="res_model">employee.performance.dsr</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">['|', ('manager_id.user_id', '=', uid), ('employee_id.user_id', '=', uid)]</field>
+    </record>
+
+    <menuitem id="menu_performance_dsr_my"
+              name="My DSRs"
+              parent="menu_performance_my"
+              action="action_employee_performance_dsr_my"
+              sequence="10"/>
+              
+    <menuitem id="menu_performance_dsr_team"
+              name="Team DSRs"
+              parent="menu_performance_team"
+              action="action_employee_performance_dsr_team"
+              sequence="10"/>
+</odoo>

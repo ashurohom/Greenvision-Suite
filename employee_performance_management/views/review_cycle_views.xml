@@ -1,84 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Review Cycle Tree View -->
-    <record id="view_epm_review_cycle_tree" model="ir.ui.view">
-        <field name="name">epm.review.cycle.tree</field>
-        <field name="model">epm.review.cycle</field>
+    <record id="view_employee_performance_review_cycle_tree" model="ir.ui.view">
+        <field name="name">employee.performance.review.cycle.tree</field>
+        <field name="model">employee.performance.review.cycle</field>
         <field name="arch" type="xml">
-            <list string="Review Cycles">
+            <list>
                 <field name="name"/>
+                <field name="cycle_type"/>
                 <field name="start_date"/>
                 <field name="end_date"/>
-                <field name="cycle_type"/>
-                <field name="status" widget="badge" decoration-info="status == 'draft'" decoration-warning="status == 'running'" decoration-success="status == 'completed'" decoration-danger="status == 'cancelled'"/>
+                <field name="status"/>
             </list>
         </field>
     </record>
 
-    <!-- Review Cycle Form View -->
-    <record id="view_epm_review_cycle_form" model="ir.ui.view">
-        <field name="name">epm.review.cycle.form</field>
-        <field name="model">epm.review.cycle</field>
-        <field name="arch" type="xml">
-            <form string="Review Cycle">
-                <header>
-                    <button name="action_start" string="Start Cycle" type="object" class="oe_highlight" invisible="status != 'draft'"/>
-                    <button name="action_complete" string="Complete Cycle" type="object" class="oe_highlight" invisible="status != 'running'"/>
-                    <button name="action_cancel" string="Cancel" type="object" invisible="status in ('completed', 'cancelled')"/>
-                    <button name="action_draft" string="Set to Draft" type="object" invisible="status != 'cancelled'"/>
-                    <field name="status" widget="statusbar" statusbar_visible="draft,running,completed"/>
-                </header>
-                <sheet>
-                    <div class="oe_title">
-                        <h1>
-                            <field name="name" placeholder="Cycle Name e.g. FY 2024 Review"/>
-                        </h1>
-                    </div>
-                    <group>
-                        <group>
-                            <field name="start_date"/>
-                            <field name="end_date"/>
-                        </group>
-                        <group>
-                            <field name="cycle_type"/>
-                        </group>
-                    </group>
-                </sheet>
-            </form>
-        </field>
-    </record>
-
-    <!-- Review Cycle Search View -->
-    <record id="view_epm_review_cycle_search" model="ir.ui.view">
-        <field name="name">epm.review.cycle.search</field>
-        <field name="model">epm.review.cycle</field>
-        <field name="arch" type="xml">
-            <search string="Search Review Cycles">
-                <field name="name"/>
-                <filter string="Running" name="running" domain="[('status', '=', 'running')]"/>
-                <filter string="Completed" name="completed" domain="[('status', '=', 'completed')]"/>
-                <group expand="0" string="Group By">
-                    <filter string="Status" name="group_by_status" context="{'group_by': 'status'}"/>
-                    <filter string="Cycle Type" name="group_by_type" context="{'group_by': 'cycle_type'}"/>
-                </group>
-            </search>
-        </field>
-    </record>
-
-    <!-- Review Cycle Action -->
-    <record id="action_epm_review_cycle" model="ir.actions.act_window">
+    <record id="action_employee_performance_review_cycle" model="ir.actions.act_window">
         <field name="name">Review Cycles</field>
-        <field name="res_model">epm.review.cycle</field>
+        <field name="res_model">employee.performance.review.cycle</field>
         <field name="view_mode">list,form</field>
-        <field name="search_view_id" ref="view_epm_review_cycle_search"/>
-        <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">
-                Create a new Review Cycle!
-            </p>
-        </field>
     </record>
 
-    <!-- Menu Item -->
-    <menuitem id="menu_epm_review_cycle" name="Review Cycles" parent="menu_epm_masters" action="action_epm_review_cycle" sequence="40"/>
-
+    <menuitem id="menu_performance_review_cycle"
+              name="Review Cycles"
+              parent="menu_performance_configuration"
+              action="action_employee_performance_review_cycle"
+              sequence="70"/>
 </odoo>

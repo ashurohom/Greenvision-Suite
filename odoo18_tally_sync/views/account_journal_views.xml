@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_account_journal_form_inherit_tally" model="ir.ui.view">
+        <field name="name">account.journal.form.inherit.tally</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.view_account_journal_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='type']" position="after">
+                <field name="tally_ledger_name" invisible="type not in ('bank', 'cash')" placeholder="e.g. Bank or HDFC Bank"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,68 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- KRA Tree View -->
-    <record id="view_epm_kra_tree" model="ir.ui.view">
-        <field name="name">epm.kra.tree</field>
-        <field name="model">epm.kra</field>
+    <record id="view_employee_performance_kra_tree" model="ir.ui.view">
+        <field name="name">employee.performance.kra.tree</field>
+        <field name="model">employee.performance.kra</field>
         <field name="arch" type="xml">
-            <list string="KRAs">
+            <list>
                 <field name="sequence" widget="handle"/>
                 <field name="code"/>
                 <field name="name"/>
                 <field name="department_id"/>
                 <field name="weightage"/>
-                <field name="review_frequency"/>
-                <field name="active" widget="boolean_toggle"/>
             </list>
         </field>
     </record>
 
-    <!-- KRA Form View -->
-    <record id="view_epm_kra_form" model="ir.ui.view">
-        <field name="name">epm.kra.form</field>
-        <field name="model">epm.kra</field>
+    <record id="view_employee_performance_kra_form" model="ir.ui.view">
+        <field name="name">employee.performance.kra.form</field>
+        <field name="model">employee.performance.kra</field>
         <field name="arch" type="xml">
-            <form string="KRA">
+            <form>
                 <sheet>
-                    <div class="oe_button_box" name="button_box">
-                        <button name="%(action_epm_kpa)d" type="action" class="oe_stat_button" icon="fa-list" context="{'search_default_kra_id': id}">
-                            <div class="o_field_widget o_stat_info">
-                                <span class="o_stat_text">KPAs</span>
-                            </div>
-                        </button>
-                    </div>
-                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger" invisible="active == True"/>
                     <div class="oe_title">
                         <h1>
-                            <field name="code" readonly="1"/>
+                            <field name="name" placeholder="e.g. Financial Management"/>
                         </h1>
-                        <h2>
-                            <field name="name" placeholder="KRA Name"/>
-                        </h2>
                     </div>
                     <group>
                         <group>
-                            <field name="department_id"/>
+                            <field name="code"/>
                             <field name="weightage"/>
                         </group>
                         <group>
-                            <field name="review_frequency"/>
-                            <field name="active" invisible="1"/>
+                            <field name="department_id"/>
+                            <field name="job_id"/>
+                            <field name="active" widget="boolean_toggle"/>
                         </group>
                     </group>
                     <notebook>
                         <page string="Description">
-                            <field name="description" placeholder="Description of the Key Result Area..."/>
-                        </page>
-                        <page string="KPAs">
-                            <field name="kpa_ids">
-                                <list editable="bottom">
-                                    <field name="sequence" widget="handle"/>
-                                    <field name="code"/>
-                                    <field name="name"/>
-                                    <field name="weightage"/>
-                                </list>
-                            </field>
+                            <field name="description"/>
                         </page>
                     </notebook>
                 </sheet>
@@ -70,38 +46,15 @@
         </field>
     </record>
 
-    <!-- KRA Search View -->
-    <record id="view_epm_kra_search" model="ir.ui.view">
-        <field name="name">epm.kra.search</field>
-        <field name="model">epm.kra</field>
-        <field name="arch" type="xml">
-            <search string="Search KRAs">
-                <field name="name"/>
-                <field name="code"/>
-                <field name="department_id"/>
-                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
-                <group expand="0" string="Group By">
-                    <filter string="Department" name="group_by_department" context="{'group_by': 'department_id'}"/>
-                    <filter string="Frequency" name="group_by_frequency" context="{'group_by': 'review_frequency'}"/>
-                </group>
-            </search>
-        </field>
-    </record>
-
-    <!-- KRA Action -->
-    <record id="action_epm_kra" model="ir.actions.act_window">
-        <field name="name">KRA Master</field>
-        <field name="res_model">epm.kra</field>
+    <record id="action_employee_performance_kra" model="ir.actions.act_window">
+        <field name="name">Key Result Areas (KRA)</field>
+        <field name="res_model">employee.performance.kra</field>
         <field name="view_mode">list,form</field>
-        <field name="search_view_id" ref="view_epm_kra_search"/>
-        <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">
-                Create your first Key Result Area (KRA)!
-            </p>
-        </field>
     </record>
 
-    <!-- Menu Item -->
-    <menuitem id="menu_epm_kra" name="KRA Master" parent="menu_epm_masters" action="action_epm_kra" sequence="10"/>
-
+    <menuitem id="menu_performance_kra"
+              name="KRAs"
+              parent="menu_performance_configuration"
+              action="action_employee_performance_kra"
+              sequence="10"/>
 </odoo>

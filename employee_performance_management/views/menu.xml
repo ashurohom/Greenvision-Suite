@@ -1,94 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Dashboard Form View -->
-    <record id="view_epm_dashboard_form" model="ir.ui.view">
-        <field name="name">epm.dashboard.form</field>
-        <field name="model">epm.dashboard</field>
-        <field name="arch" type="xml">
-            <form string="Dashboard" create="false" edit="false" delete="false">
-                <sheet>
-                    <div class="oe_title">
-                        <h1>Performance Dashboard</h1>
-                    </div>
-                    <div class="o_kanban_view o_kanban_dashboard">
-                        <div class="row">
-                            <div class="col-md-3 mb-3">
-                                <div class="card text-white bg-primary">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Total Employees</h5>
-                                        <h2><field name="total_employees"/></h2>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3 mb-3">
-                                <div class="card text-white bg-success">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Active KRAs</h5>
-                                        <h2><field name="active_kras"/></h2>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3 mb-3">
-                                <div class="card text-white bg-info">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Active KPAs</h5>
-                                        <h2><field name="active_kpas"/></h2>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3 mb-3">
-                                <div class="card text-white bg-warning">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Active KPIs</h5>
-                                        <h2><field name="active_kpis"/></h2>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <div class="card bg-light">
-                                    <div class="card-body">
-                                        <h5 class="card-title text-secondary">Pending Reviews</h5>
-                                        <h2><field name="pending_reviews"/></h2>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <div class="card bg-light">
-                                    <div class="card-body">
-                                        <h5 class="card-title text-secondary">Completed Reviews</h5>
-                                        <h2><field name="completed_reviews"/></h2>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <div class="card bg-light">
-                                    <div class="card-body">
-                                        <h5 class="card-title text-secondary">Average Score</h5>
-                                        <h2><field name="average_score"/>%</h2>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </sheet>
-            </form>
-        </field>
-    </record>
+    <data>
+        <menuitem id="menu_employee_performance_root"
+                  name="Performance"
+                  web_icon="employee_performance_management,static/description/icon.png"
+                  sequence="75"/>
 
-    <!-- Dashboard Action -->
-    <record id="action_epm_dashboard" model="ir.actions.act_window">
-        <field name="name">Dashboard</field>
-        <field name="res_model">epm.dashboard</field>
-        <field name="view_mode">form</field>
-        <field name="target">inline</field>
-    </record>
+        <menuitem id="menu_performance_my"
+                  name="My Performance"
+                  parent="menu_employee_performance_root"
+                  sequence="10"/>
 
-    <!-- Top Menu -->
-    <menuitem id="menu_epm_root" name="Employee Performance" sequence="100"/>
-    
-    <!-- Level 1 Menus -->
-    <menuitem id="menu_epm_dashboard" name="Dashboard" parent="menu_epm_root" action="action_epm_dashboard" sequence="10"/>
-    <menuitem id="menu_epm_performance" name="Performance" parent="menu_epm_root" sequence="20"/>
-    <menuitem id="menu_epm_masters" name="Masters" parent="menu_epm_root" sequence="30"/>
+        <menuitem id="menu_performance_team"
+                  name="Team Performance"
+                  parent="menu_employee_performance_root"
+                  sequence="20"/>
 
+        <menuitem id="menu_performance_configuration"
+                  name="Configuration"
+                  parent="menu_employee_performance_root"
+                  sequence="100"/>
+                  
+        <menuitem id="menu_performance_reporting"
+                  name="Reporting"
+                  parent="menu_employee_performance_root"
+                  sequence="90"/>
+    </data>
 </odoo>

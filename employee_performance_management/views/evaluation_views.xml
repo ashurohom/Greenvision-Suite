@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_employee_performance_evaluation_tree" model="ir.ui.view">
+        <field name="name">employee.performance.evaluation.tree</field>
+        <field name="model">employee.performance.evaluation</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="review_cycle_id"/>
+                <field name="overall_score" widget="progressbar"/>
+                <field name="rating_id"/>
+                <field name="status" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_employee_performance_evaluation_form" model="ir.ui.view">
+        <field name="name">employee.performance.evaluation.form</field>
+        <field name="model">employee.performance.evaluation</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_calculate" string="Calculate Scores" type="object" invisible="status != 'draft'" class="oe_highlight"/>
+                    <button name="action_submit_manager" string="Submit for Review" type="object" invisible="status != 'in_progress'" class="oe_highlight"/>
+                    <button name="action_complete" string="Complete Evaluation" type="object" invisible="status != 'manager_review'" class="oe_highlight"/>
+                    <button name="action_cancel" string="Cancel" type="object" invisible="status in ('completed', 'cancelled')"/>
+                    <field name="status" widget="statusbar" statusbar_visible="draft,in_progress,manager_review,completed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="employee_id"/>
+                            <field name="job_id"/>
+                            <field name="department_id"/>
+                            <field name="manager_id"/>
+                        </group>
+                        <group>
+                            <field name="review_cycle_id"/>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="overall_score" widget="progressbar"/>
+                        </group>
+                        <group>
+                            <field name="rating_id"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Score Details">
+                            <field name="line_ids" readonly="1">
+                                <list>
+                                    <field name="type"/>
+                                    <field name="kra_id"/>
+                                    <field name="kpa_id"/>
+                                    <field name="kpi_id"/>
+                                    <field name="weightage"/>
+                                    <field name="target_value"/>
+                                    <field name="actual_value"/>
+                                    <field name="achievement_percentage" widget="progressbar"/>
+                                    <field name="score"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Comments">
+                            <group>
+                                <field name="employee_comments"/>
+                                <field name="manager_comments"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_employee_performance_evaluation_my" model="ir.actions.act_window">
+        <field name="name">My Evaluations</field>
+        <field name="res_model">employee.performance.evaluation</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('employee_id.user_id', '=', uid)]</field>
+    </record>
+    
+    <record id="action_employee_performance_evaluation_team" model="ir.actions.act_window">
+        <field name="name">Team Evaluations</field>
+        <field name="res_model">employee.performance.evaluation</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">['|', ('manager_id.user_id', '=', uid), ('employee_id.user_id', '=', uid)]</field>
+    </record>
+
+    <menuitem id="menu_performance_eval_my"
+              name="My Evaluations"
+              parent="menu_performance_my"
+              action="action_employee_performance_evaluation_my"
+              sequence="20"/>
+              
+    <menuitem id="menu_performance_eval_team"
+              name="Team Evaluations"
+              parent="menu_performance_team"
+              action="action_employee_performance_evaluation_team"
+              sequence="20"/>
+</odoo>

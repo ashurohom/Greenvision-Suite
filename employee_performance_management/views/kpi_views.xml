@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- KPI Tree View -->
-    <record id="view_epm_kpi_tree" model="ir.ui.view">
-        <field name="name">epm.kpi.tree</field>
-        <field name="model">epm.kpi</field>
+    <record id="view_employee_performance_kpi_tree" model="ir.ui.view">
+        <field name="name">employee.performance.kpi.tree</field>
+        <field name="model">employee.performance.kpi</field>
         <field name="arch" type="xml">
-            <list string="KPIs">
+            <list>
                 <field name="sequence" widget="handle"/>
                 <field name="code"/>
                 <field name="name"/>
@@ -13,29 +12,24 @@
                 <field name="measurement_type"/>
                 <field name="target_value"/>
                 <field name="weightage"/>
-                <field name="active" widget="boolean_toggle"/>
             </list>
         </field>
     </record>
 
-    <!-- KPI Form View -->
-    <record id="view_epm_kpi_form" model="ir.ui.view">
-        <field name="name">epm.kpi.form</field>
-        <field name="model">epm.kpi</field>
+    <record id="view_employee_performance_kpi_form" model="ir.ui.view">
+        <field name="name">employee.performance.kpi.form</field>
+        <field name="model">employee.performance.kpi</field>
         <field name="arch" type="xml">
-            <form string="KPI">
+            <form>
                 <sheet>
-                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger" invisible="active == True"/>
                     <div class="oe_title">
                         <h1>
-                            <field name="code" readonly="1"/>
+                            <field name="name" placeholder="e.g. Invoices Processed"/>
                         </h1>
-                        <h2>
-                            <field name="name" placeholder="KPI Name"/>
-                        </h2>
                     </div>
                     <group>
                         <group>
+                            <field name="code"/>
                             <field name="kpa_id"/>
                             <field name="measurement_type"/>
                             <field name="calculation_method"/>
@@ -45,12 +39,12 @@
                             <field name="minimum_value"/>
                             <field name="maximum_value"/>
                             <field name="weightage"/>
-                            <field name="active" invisible="1"/>
+                            <field name="active" widget="boolean_toggle"/>
                         </group>
                     </group>
                     <notebook>
                         <page string="Description">
-                            <field name="description" placeholder="Description of the Key Performance Indicator..."/>
+                            <field name="description"/>
                         </page>
                     </notebook>
                 </sheet>
@@ -58,38 +52,15 @@
         </field>
     </record>
 
-    <!-- KPI Search View -->
-    <record id="view_epm_kpi_search" model="ir.ui.view">
-        <field name="name">epm.kpi.search</field>
-        <field name="model">epm.kpi</field>
-        <field name="arch" type="xml">
-            <search string="Search KPIs">
-                <field name="name"/>
-                <field name="code"/>
-                <field name="kpa_id"/>
-                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
-                <group expand="0" string="Group By">
-                    <filter string="KPA" name="group_by_kpa" context="{'group_by': 'kpa_id'}"/>
-                    <filter string="Measurement Type" name="group_by_measurement" context="{'group_by': 'measurement_type'}"/>
-                </group>
-            </search>
-        </field>
-    </record>
-
-    <!-- KPI Action -->
-    <record id="action_epm_kpi" model="ir.actions.act_window">
-        <field name="name">KPI Master</field>
-        <field name="res_model">epm.kpi</field>
+    <record id="action_employee_performance_kpi" model="ir.actions.act_window">
+        <field name="name">Key Performance Indicators (KPI)</field>
+        <field name="res_model">employee.performance.kpi</field>
         <field name="view_mode">list,form</field>
-        <field name="search_view_id" ref="view_epm_kpi_search"/>
-        <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">
-                Create your first Key Performance Indicator (KPI)!
-            </p>
-        </field>
     </record>
 
-    <!-- Menu Item -->
-    <menuitem id="menu_epm_kpi" name="KPI Master" parent="menu_epm_masters" action="action_epm_kpi" sequence="30"/>
-
+    <menuitem id="menu_performance_kpi"
+              name="KPIs"
+              parent="menu_performance_configuration"
+              action="action_employee_performance_kpi"
+              sequence="30"/>
 </odoo>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="rating_needs_improvement" model="employee.performance.rating.scale">
+            <field name="name">Needs Improvement</field>
+            <field name="min_score">0</field>
+            <field name="max_score">69.99</field>
+        </record>
+        <record id="rating_good" model="employee.performance.rating.scale">
+            <field name="name">Good</field>
+            <field name="min_score">70</field>
+            <field name="max_score">79.99</field>
+        </record>
+        <record id="rating_very_good" model="employee.performance.rating.scale">
+            <field name="name">Very Good</field>
+            <field name="min_score">80</field>
+            <field name="max_score">89.99</field>
+        </record>
+        <record id="rating_excellent" model="employee.performance.rating.scale">
+            <field name="name">Excellent</field>
+            <field name="min_score">90</field>
+            <field name="max_score">94.99</field>
+        </record>
+        <record id="rating_outstanding" model="employee.performance.rating.scale">
+            <field name="name">Outstanding</field>
+            <field name="min_score">95</field>
+            <field name="max_score">100</field>
+        </record>
+    </data>
+</odoo>

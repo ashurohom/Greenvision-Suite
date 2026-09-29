@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_product_template_form_inherit_tally" model="ir.ui.view">
+        <field name="name">product.template.form.inherit.tally</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Tally Integration">
+                    <group>
+                        <group>
+                            <field name="tally_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="last_sync" readonly="1"/>
+                            <field name="sync_status" readonly="1"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

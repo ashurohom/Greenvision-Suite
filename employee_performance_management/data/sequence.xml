@@ -1,66 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data noupdate="1">
-        <!-- KRA Sequence -->
-        <record id="seq_epm_kra" model="ir.sequence">
-            <field name="name">KRA Sequence</field>
-            <field name="code">epm.kra</field>
-            <field name="prefix">KRA</field>
-            <field name="padding">4</field>
+        <record id="seq_performance_dsr" model="ir.sequence">
+            <field name="name">Performance DSR</field>
+            <field name="code">employee.performance.dsr</field>
+            <field name="prefix">DSR/%(year)s/%(month)s/</field>
+            <field name="padding">5</field>
             <field name="company_id" eval="False"/>
         </record>
 
-        <!-- KPA Sequence -->
-        <record id="seq_epm_kpa" model="ir.sequence">
-            <field name="name">KPA Sequence</field>
-            <field name="code">epm.kpa</field>
-            <field name="prefix">KPA</field>
-            <field name="padding">4</field>
-            <field name="company_id" eval="False"/>
-        </record>
-
-        <!-- KPI Sequence -->
-        <record id="seq_epm_kpi" model="ir.sequence">
-            <field name="name">KPI Sequence</field>
-            <field name="code">epm.kpi</field>
-            <field name="prefix">KPI</field>
-            <field name="padding">4</field>
-            <field name="company_id" eval="False"/>
-        </record>
-
-        <!-- Assignment Sequence -->
-        <record id="seq_epm_assignment" model="ir.sequence">
-            <field name="name">Assignment Sequence</field>
-            <field name="code">epm.assignment</field>
-            <field name="prefix">ASSIGN</field>
-            <field name="padding">4</field>
-            <field name="company_id" eval="False"/>
-        </record>
-
-        <!-- Self Review Sequence -->
-        <record id="seq_epm_self_review" model="ir.sequence">
-            <field name="name">Self Review Sequence</field>
-            <field name="code">epm.self.review</field>
-            <field name="prefix">SREV</field>
-            <field name="padding">4</field>
-            <field name="company_id" eval="False"/>
-        </record>
-
-        <!-- Manager Review Sequence -->
-        <record id="seq_epm_manager_review" model="ir.sequence">
-            <field name="name">Manager Review Sequence</field>
-            <field name="code">epm.manager.review</field>
-            <field name="prefix">MREV</field>
-            <field name="padding">4</field>
-            <field name="company_id" eval="False"/>
-        </record>
-
-        <!-- Final Evaluation Sequence -->
-        <record id="seq_epm_final_eval" model="ir.sequence">
-            <field name="name">Final Evaluation Sequence</field>
-            <field name="code">epm.final.eval</field>
-            <field name="prefix">EVAL</field>
-            <field name="padding">4</field>
+        <record id="seq_performance_evaluation" model="ir.sequence">
+            <field name="name">Performance Evaluation</field>
+            <field name="code">employee.performance.evaluation</field>
+            <field name="prefix">EVAL/%(year)s/%(month)s/</field>
+            <field name="padding">5</field>
             <field name="company_id" eval="False"/>
         </record>
     </data>

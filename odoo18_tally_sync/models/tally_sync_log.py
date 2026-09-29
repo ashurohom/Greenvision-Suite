@@ -14,7 +14,14 @@ class TallySyncLog(models.Model):
     model = fields.Selection([
         ('partner', 'Partner'),
         ('customer', 'Customer'),
-        ('vendor', 'Vendor')
+        ('vendor', 'Vendor'),
+        ('product', 'Product'),
+        ('invoice', 'Invoice'),
+        ('vendor_bill', 'Vendor Bill'),
+        ('payment', 'Payment'),
+        ('supplier_payment', 'Supplier Payment'),
+        ('credit_note', 'Credit Note'),
+        ('debit_note', 'Debit Note')
     ], string='Model', required=True, readonly=True)
     
     status = fields.Selection([
