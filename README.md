@@ -242,5 +242,5 @@ This repository and its custom modules are licensed under the [GNU Lesser Genera
 ---
 
 <p align="center">
-  <b>Developed for Ashitosh B Rohom</b> • <a href="https://ashitoshrohom.netlify.app/">Ashitosh B Rohom</a>
+  <b>Developed for Greenvision by Ashitosh B Rohom</b> • <a href="https://ashitoshrohom.netlify.app/">Ashitosh B Rohom</a>
 </p>

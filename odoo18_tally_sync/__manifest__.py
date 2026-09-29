@@ -26,6 +26,11 @@
         'views/manual_sync_views.xml',
         'views/server_actions.xml',
     ],
+    'assets': {
+        'web.assets_backend': [
+            'odoo18_tally_sync/static/src/js/tally_notification.js',
+        ],
+    },
     'installable': True,
     'application': True,
     'auto_install': False,
