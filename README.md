@@ -218,7 +218,7 @@ A structured, metrics-driven HR evaluation and appraisal framework:
 ---
 
 ## 🔄 Sync Workflows & Services
-
+z
 The integration modules isolate business logic in dedicated service classes:
 
 - **`TallyClient`** (`services/tally_client.py`): Handles HTTP communication, network timeouts, and raw payload transmission to Tally.

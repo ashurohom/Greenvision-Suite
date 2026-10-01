@@ -6,3 +6,4 @@ from . import account_move
 from . import notification_helper
 from . import account_payment
 from . import account_journal
+from . import tally_unique_id

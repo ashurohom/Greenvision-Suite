@@ -15,6 +15,7 @@
     'data': [
         'security/ir.model.access.csv',
         'data/cron.xml',
+        'data/tally_sequence_data.xml',
         'views/menu.xml',
         'views/tally_configuration_views.xml',
         'views/sync_log_views.xml',
@@ -23,6 +24,7 @@
         'views/account_move_views.xml',
         'views/account_payment_views.xml',
         'views/account_journal_views.xml',
+        'views/tally_unique_id_views.xml',
         'views/manual_sync_views.xml',
         'views/server_actions.xml',
     ],

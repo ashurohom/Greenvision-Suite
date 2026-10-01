@@ -203,22 +203,47 @@ class TallyManualSync(models.TransientModel):
 
             self.result_message = _("Sync Completed.\nSuccess: %d\nFailed: %d") % (success_count, failed_count)
             self.state = 'done'
-            
+
+            notif_type = 'success' if failed_count == 0 else ('warning' if success_count > 0 else 'danger')
+            notif_title = _('Sync Successful') if failed_count == 0 else _('Sync Completed with Issues')
+
             return {
-                'type': 'ir.actions.act_window',
-                'res_model': 'tally.manual.sync',
-                'res_id': self.id,
-                'view_mode': 'form',
-                'target': 'new',
+                'type': 'ir.actions.client',
+                'tag': 'display_notification',
+                'params': {
+                    'title': notif_title,
+                    'message': _('Tally Sync Finished: %d succeeded, %d failed.') % (success_count, failed_count),
+                    'type': notif_type,
+                    'sticky': False,
+                    'duration': 5000,
+                    'next': {
+                        'type': 'ir.actions.act_window',
+                        'res_model': 'tally.manual.sync',
+                        'res_id': self.id,
+                        'view_mode': 'form',
+                        'target': 'new',
+                    },
+                }
             }
 
         except Exception as e:
             self.result_message = _("Error occurred during sync: %s") % str(e)
             self.state = 'done'
             return {
-                'type': 'ir.actions.act_window',
-                'res_model': 'tally.manual.sync',
-                'res_id': self.id,
-                'view_mode': 'form',
-                'target': 'new',
+                'type': 'ir.actions.client',
+                'tag': 'display_notification',
+                'params': {
+                    'title': _('Sync Failed'),
+                    'message': _('Error occurred during sync: %s') % str(e),
+                    'type': 'danger',
+                    'sticky': False,
+                    'duration': 5000,
+                    'next': {
+                        'type': 'ir.actions.act_window',
+                        'res_model': 'tally.manual.sync',
+                        'res_id': self.id,
+                        'view_mode': 'form',
+                        'target': 'new',
+                    },
+                }
             }

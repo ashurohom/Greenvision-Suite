@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <!-- Server action for bulk exporting Invoices / Bills -->
+        <!-- Server action for bulk exporting Invoices / Bills / Credit Notes / Debit Notes -->
         <record id="action_bulk_export_move_tally" model="ir.actions.server">
             <field name="name">Export to Tally</field>
             <field name="model_id" ref="account.model_account_move"/>
@@ -10,7 +10,7 @@
             <field name="state">code</field>
             <field name="code">
                 if records:
-                    records.action_export_to_tally()
+                    action = records.action_export_to_tally()
             </field>
         </record>
 
@@ -23,7 +23,20 @@
             <field name="state">code</field>
             <field name="code">
                 if records:
-                    records.action_export_to_tally()
+                    action = records.action_export_to_tally()
+            </field>
+        </record>
+
+        <!-- Server action for bulk exporting Products (Stock Items) -->
+        <record id="action_bulk_export_product_tally" model="ir.actions.server">
+            <field name="name">Export to Tally</field>
+            <field name="model_id" ref="product.model_product_template"/>
+            <field name="binding_model_id" ref="product.model_product_template"/>
+            <field name="binding_view_types">list,form</field>
+            <field name="state">code</field>
+            <field name="code">
+                if records:
+                    action = records.action_export_to_tally()
             </field>
         </record>
 
@@ -36,7 +49,7 @@
             <field name="state">code</field>
             <field name="code">
                 if records:
-                    records.action_export_to_tally()
+                    action = records.action_export_to_tally()
             </field>
         </record>
 
@@ -49,7 +62,7 @@
             <field name="state">code</field>
             <field name="code">
                 if records:
-                    records.action_export_payments_to_tally()
+                    action = records.action_export_payments_to_tally()
             </field>
         </record>
     </data>

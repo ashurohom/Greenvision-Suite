@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ============================================================== -->
+    <!-- PARTNER VIEWS (Customer & Vendor Unique IDs)                  -->
+    <!-- ============================================================== -->
+
+    <!-- Partner Form View Inheritance -->
+    <record id="view_partner_form_inherit_tally_unique_id" model="ir.ui.view">
+        <field name="name">res.partner.form.inherit.tally.unique.id</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="priority">30</field>
+        <field name="arch" type="xml">
+            <!-- Display in main sheet under VAT / Tax ID -->
+            <xpath expr="//field[@name='vat']" position="after">
+                <field name="tally_customer_id" readonly="1" 
+                       invisible="(supplier_rank &gt; 0 and customer_rank == 0) or not tally_customer_id"/>
+                <field name="tally_vendor_id" readonly="1" 
+                       invisible="(customer_rank &gt; 0 and supplier_rank == 0) or not tally_vendor_id"/>
+            </xpath>
+            <!-- Display inside Tally Integration notebook page -->
+            <xpath expr="//field[@name='tally_id']" position="before">
+                <field name="tally_customer_id" readonly="1" 
+                       invisible="supplier_rank &gt; 0 and customer_rank == 0 and not tally_customer_id"/>
+                <field name="tally_vendor_id" readonly="1" 
+                       invisible="customer_rank &gt; 0 and supplier_rank == 0 and not tally_vendor_id"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Partner List/Tree View Inheritance (Cleanly separated: Customer ID on Customers, Vendor ID on Vendors) -->
+    <record id="view_partner_tree_inherit_tally_unique_id" model="ir.ui.view">
+        <field name="name">res.partner.list.inherit.tally.unique.id</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='display_name']" position="after">
+                <field name="tally_customer_id" optional="show" 
+                       column_invisible="context.get('res_partner_search_mode') == 'supplier'"/>
+                <field name="tally_vendor_id" optional="show" 
+                       column_invisible="context.get('res_partner_search_mode') != 'supplier'"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Partner Search View Inheritance -->
+    <record id="view_res_partner_filter_inherit_tally_unique_id" model="ir.ui.view">
+        <field name="name">res.partner.select.inherit.tally.unique.id</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="tally_customer_id" string="Tally Customer ID" 
+                       filter_domain="[('tally_customer_id', 'ilike', self)]" 
+                       invisible="context.get('res_partner_search_mode') == 'supplier'"/>
+                <field name="tally_vendor_id" string="Tally Vendor ID" 
+                       filter_domain="[('tally_vendor_id', 'ilike', self)]" 
+                       invisible="context.get('res_partner_search_mode') != 'supplier'"/>
+            </xpath>
+            <xpath expr="//search" position="inside">
+                <filter name="has_tally_customer_id" string="Has Customer ID" 
+                        domain="[('tally_customer_id', '!=', False)]" 
+                        invisible="context.get('res_partner_search_mode') == 'supplier'"/>
+                <filter name="has_tally_vendor_id" string="Has Vendor ID" 
+                        domain="[('tally_vendor_id', '!=', False)]" 
+                        invisible="context.get('res_partner_search_mode') != 'supplier'"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- ============================================================== -->
+    <!-- ACCOUNT MOVE VIEWS (Invoice, Bill, Credit/Debit Note IDs)       -->
+    <!-- ============================================================== -->
+
+    <!-- Account Move Form View Inheritance -->
+    <record id="view_move_form_inherit_tally_unique_id" model="ir.ui.view">
+        <field name="name">account.move.form.inherit.tally.unique.id</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="priority">30</field>
+        <field name="arch" type="xml">
+            <!-- Display in main form sheet next to Payment Reference -->
+            <xpath expr="//field[@name='payment_reference']" position="after">
+                <field name="tally_invoice_id" readonly="1" invisible="move_type != 'out_invoice'"/>
+                <field name="tally_purchase_id" readonly="1" invisible="move_type != 'in_invoice'"/>
+                <field name="tally_credit_note_id" readonly="1" invisible="move_type != 'out_refund'"/>
+                <field name="tally_debit_note_id" readonly="1" invisible="move_type != 'in_refund'"/>
+            </xpath>
+            <!-- Display inside Tally Integration notebook page -->
+            <xpath expr="//field[@name='tally_id']" position="before">
+                <field name="tally_invoice_id" readonly="1" invisible="move_type != 'out_invoice'"/>
+                <field name="tally_purchase_id" readonly="1" invisible="move_type != 'in_invoice'"/>
+                <field name="tally_credit_note_id" readonly="1" invisible="move_type != 'out_refund'"/>
+                <field name="tally_debit_note_id" readonly="1" invisible="move_type != 'in_refund'"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Account Move List/Tree View Inheritance (Strictly isolated by move_type) -->
+    <record id="view_invoice_tree_inherit_tally_unique_id" model="ir.ui.view">
+        <field name="name">account.invoice.list.inherit.tally.unique.id</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_invoice_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <!-- Only shown on Customer Invoices -->
+                <field name="tally_invoice_id" optional="show" 
+                       column_invisible="context.get('default_move_type') != 'out_invoice'"/>
+                <!-- Only shown on Vendor Bills -->
+                <field name="tally_purchase_id" optional="show" 
+                       column_invisible="context.get('default_move_type') != 'in_invoice'"/>
+                <!-- Only shown on Customer Credit Notes -->
+                <field name="tally_credit_note_id" optional="show" 
+                       column_invisible="context.get('default_move_type') != 'out_refund'"/>
+                <!-- Only shown on Vendor Debit Notes -->
+                <field name="tally_debit_note_id" optional="show" 
+                       column_invisible="context.get('default_move_type') != 'in_refund'"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Account Move Search View Inheritance (Strictly isolated by move_type) -->
+    <record id="view_account_invoice_filter_inherit_tally_unique_id" model="ir.ui.view">
+        <field name="name">account.invoice.select.inherit.tally.unique.id</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="tally_invoice_id" string="Tally Invoice ID" 
+                       filter_domain="[('tally_invoice_id', 'ilike', self)]" 
+                       invisible="context.get('default_move_type') != 'out_invoice'"/>
+                <field name="tally_purchase_id" string="Tally Purchase ID" 
+                       filter_domain="[('tally_purchase_id', 'ilike', self)]" 
+                       invisible="context.get('default_move_type') != 'in_invoice'"/>
+                <field name="tally_credit_note_id" string="Tally Credit Note ID" 
+                       filter_domain="[('tally_credit_note_id', 'ilike', self)]" 
+                       invisible="context.get('default_move_type') != 'out_refund'"/>
+                <field name="tally_debit_note_id" string="Tally Debit Note ID" 
+                       filter_domain="[('tally_debit_note_id', 'ilike', self)]" 
+                       invisible="context.get('default_move_type') != 'in_refund'"/>
+            </xpath>
+            <xpath expr="//search" position="inside">
+                <filter name="has_tally_invoice_id" string="Has Tally Invoice ID" 
+                        domain="[('tally_invoice_id', '!=', False)]" 
+                        invisible="context.get('default_move_type') != 'out_invoice'"/>
+                <filter name="has_tally_purchase_id" string="Has Tally Purchase ID" 
+                        domain="[('tally_purchase_id', '!=', False)]" 
+                        invisible="context.get('default_move_type') != 'in_invoice'"/>
+                <filter name="has_tally_credit_note_id" string="Has Tally Credit Note ID" 
+                        domain="[('tally_credit_note_id', '!=', False)]" 
+                        invisible="context.get('default_move_type') != 'out_refund'"/>
+                <filter name="has_tally_debit_note_id" string="Has Tally Debit Note ID" 
+                        domain="[('tally_debit_note_id', '!=', False)]" 
+                        invisible="context.get('default_move_type') != 'in_refund'"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- ============================================================== -->
+    <!-- ACCOUNT PAYMENT VIEWS (Customer & Vendor Payment Unique IDs)   -->
+    <!-- ============================================================== -->
+
+    <!-- Account Payment Form View Inheritance -->
+    <record id="view_account_payment_form_inherit_tally_unique_id" model="ir.ui.view">
+        <field name="name">account.payment.form.inherit.tally.unique.id</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_form"/>
+        <field name="priority">30</field>
+        <field name="arch" type="xml">
+            <!-- Display in main form sheet next to Memo -->
+            <xpath expr="//field[@name='memo']" position="after">
+                <field name="tally_customer_payment_id" readonly="1" invisible="payment_type != 'inbound'"/>
+                <field name="tally_vendor_payment_id" readonly="1" invisible="payment_type != 'outbound'"/>
+            </xpath>
+            <!-- Display inside Tally Integration notebook page -->
+            <xpath expr="//field[@name='tally_id']" position="before">
+                <field name="tally_customer_payment_id" readonly="1" invisible="payment_type != 'inbound'"/>
+                <field name="tally_vendor_payment_id" readonly="1" invisible="payment_type != 'outbound'"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Account Payment List/Tree View Inheritance (Strictly isolated by payment_type) -->
+    <record id="view_account_payment_tree_inherit_tally_unique_id" model="ir.ui.view">
+        <field name="name">account.payment.list.inherit.tally.unique.id</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <!-- Only shown on Customer Payments -->
+                <field name="tally_customer_payment_id" optional="show" 
+                       column_invisible="context.get('default_payment_type') != 'inbound'"/>
+                <!-- Only shown on Vendor Payments -->
+                <field name="tally_vendor_payment_id" optional="show" 
+                       column_invisible="context.get('default_payment_type') != 'outbound'"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Account Payment Search View Inheritance (Strictly isolated by payment_type) -->
+    <record id="view_account_payment_search_inherit_tally_unique_id" model="ir.ui.view">
+        <field name="name">account.payment.search.inherit.tally.unique.id</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="tally_customer_payment_id" string="Tally Customer Payment ID" 
+                       filter_domain="[('tally_customer_payment_id', 'ilike', self)]" 
+                       invisible="context.get('default_payment_type') != 'inbound'"/>
+                <field name="tally_vendor_payment_id" string="Tally Vendor Payment ID" 
+                       filter_domain="[('tally_vendor_payment_id', 'ilike', self)]" 
+                       invisible="context.get('default_payment_type') != 'outbound'"/>
+            </xpath>
+            <xpath expr="//search" position="inside">
+                <filter name="has_tally_customer_payment_id" string="Has Customer Payment ID" 
+                        domain="[('tally_customer_payment_id', '!=', False)]" 
+                        invisible="context.get('default_payment_type') != 'inbound'"/>
+                <filter name="has_tally_vendor_payment_id" string="Has Vendor Payment ID" 
+                        domain="[('tally_vendor_payment_id', '!=', False)]" 
+                        invisible="context.get('default_payment_type') != 'outbound'"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

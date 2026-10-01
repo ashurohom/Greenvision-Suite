@@ -47,33 +47,27 @@ class TallyConfiguration(models.Model):
             
             success, message = client.test_connection()
             
+            from .notification_helper import tally_notification
+
             record.last_connection = fields.Datetime.now()
             if success:
                 record.connection_status = 'connected'
-                return {
-                    'type': 'ir.actions.client',
-                    'tag': 'display_notification',
-                    'params': {
-                        'title': _('Success'),
-                        'message': _('Successfully connected to Tally server.'),
-                        'type': 'success',
-                        'sticky': False,
-                        'next': {'type': 'ir.actions.client', 'tag': 'reload'},
-                    }
-                }
+                return tally_notification(
+                    title=_('Connection Successful'),
+                    message=_('Successfully connected to Tally server.'),
+                    notification_type='success',
+                    duration=5000,
+                    reload=True
+                )
             else:
                 record.connection_status = 'disconnected'
-                return {
-                    'type': 'ir.actions.client',
-                    'tag': 'display_notification',
-                    'params': {
-                        'title': _('Connection Failed'),
-                        'message': _('Failed to connect to Tally server: %s' % message),
-                        'type': 'danger',
-                        'sticky': True,
-                        'next': {'type': 'ir.actions.client', 'tag': 'reload'},
-                    }
-                }
+                return tally_notification(
+                    title=_('Connection Failed'),
+                    message=_('Failed to connect to Tally server: %s') % message,
+                    notification_type='danger',
+                    duration=5000,
+                    reload=True
+                )
 
     @api.model
     def _cron_check_connection(self):

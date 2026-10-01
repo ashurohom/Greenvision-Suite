@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Customer Unique ID Sequence (e.g. CUST-00001) -->
+        <record id="seq_tally_customer_id" model="ir.sequence">
+            <field name="name">Tally Customer ID</field>
+            <field name="code">tally.customer.id</field>
+            <field name="prefix">CUST-</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- Vendor Unique ID Sequence (e.g. VEND-00001) -->
+        <record id="seq_tally_vendor_id" model="ir.sequence">
+            <field name="name">Tally Vendor ID</field>
+            <field name="code">tally.vendor.id</field>
+            <field name="prefix">VEND-</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- Customer Invoice Unique ID Sequence (e.g. INV-00001) -->
+        <record id="seq_tally_invoice_id" model="ir.sequence">
+            <field name="name">Tally Customer Invoice ID</field>
+            <field name="code">tally.invoice.id</field>
+            <field name="prefix">INV-</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- Vendor Bill / Purchase Unique ID Sequence (e.g. PUR-00001) -->
+        <record id="seq_tally_purchase_id" model="ir.sequence">
+            <field name="name">Tally Vendor Bill / Purchase ID</field>
+            <field name="code">tally.purchase.id</field>
+            <field name="prefix">PUR-</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- Customer Payment Unique ID Sequence (e.g. CPAY-00001) -->
+        <record id="seq_tally_customer_payment_id" model="ir.sequence">
+            <field name="name">Tally Customer Payment ID</field>
+            <field name="code">tally.customer.payment.id</field>
+            <field name="prefix">CPAY-</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- Vendor Payment Unique ID Sequence (e.g. VPAY-00001) -->
+        <record id="seq_tally_vendor_payment_id" model="ir.sequence">
+            <field name="name">Tally Vendor Payment ID</field>
+            <field name="code">tally.vendor.payment.id</field>
+            <field name="prefix">VPAY-</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- Customer Credit Note Unique ID Sequence (e.g. CCN-00001) -->
+        <record id="seq_tally_credit_note_id" model="ir.sequence">
+            <field name="name">Tally Customer Credit Note ID</field>
+            <field name="code">tally.credit.note.id</field>
+            <field name="prefix">CCN-</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- Vendor Debit Note Unique ID Sequence (e.g. DBN-00001) -->
+        <record id="seq_tally_debit_note_id" model="ir.sequence">
+            <field name="name">Tally Vendor Debit Note ID</field>
+            <field name="code">tally.debit.note.id</field>
+            <field name="prefix">DBN-</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</odoo>
